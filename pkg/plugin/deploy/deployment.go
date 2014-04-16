@@ -7,6 +7,7 @@ import (
 // Deploy stores the configuration details
 // for deploying build artifacts when
 // a Build has succeeded
+
 type Deploy struct {
 	AppFog       *AppFog       `yaml:"appfog,omitempty"`
 	CloudControl *CloudControl `yaml:"cloudcontrol,omitempty"`
@@ -20,6 +21,7 @@ type Deploy struct {
 	SSH          *SSH          `yaml:"ssh,omitempty"`
 	Tsuru        *Tsuru        `yaml:"tsuru,omitempty"`
 	Bash         *Bash         `yaml:"bash,omitempty"`
+	Dokku        []*Dokku      `yaml:"dokku,omitempty"`
 }
 
 func (d *Deploy) Write(f *buildfile.Buildfile) {
@@ -58,5 +60,9 @@ func (d *Deploy) Write(f *buildfile.Buildfile) {
 	}
 	if d.Bash != nil {
 		d.Bash.Write(f)
+	}
+
+	for _, dokku := range d.Dokku {
+		dokku.Write(f)
 	}
 }
