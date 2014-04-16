@@ -487,6 +487,7 @@ func (b *Builder) writeBuildScript(dir string) error {
 	f.WriteEnv("CI", "true")
 	f.WriteEnv("DRONE", "true")
 	f.WriteEnv("DRONE_BRANCH", b.Repo.Branch)
+	os.Setenv("DRONE_BRANCH", b.Repo.Branch)
 	f.WriteEnv("DRONE_COMMIT", b.Repo.Commit)
 	f.WriteEnv("DRONE_PR", b.Repo.PR)
 	f.WriteEnv("DRONE_BUILD_DIR", b.Repo.Dir)
