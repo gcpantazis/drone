@@ -23,10 +23,12 @@ func (d *Dokku) Write(f *buildfile.Buildfile) {
 		f.WriteCmdSilent("git config --global user.name $(git --no-pager log -1 --pretty=format:'%an')")
 		f.WriteCmdSilent("git config --global user.email $(git --no-pager log -1 --pretty=format:'%ae')")
 
+		f.WriteCmd(fmt.Sprintf("git remote add dokku %s", d.Target))
+
+		f.WriteCmd("git fetch")
 		f.WriteCmd("git checkout master")
 		f.WriteCmd("git reset $COMMIT --hard")
 
-		f.WriteCmd(fmt.Sprintf("git remote add dokku %s", d.Target))
 		f.WriteCmd(fmt.Sprintf("git push dokku master --force"))		
 	}
 }
